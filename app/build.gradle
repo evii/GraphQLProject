@@ -25,6 +25,10 @@ android {
     }
     compileOptions {
         targetCompatibility = '1.8'
+        sourceCompatibility = '1.8'
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -46,4 +50,8 @@ dependencies {
     //Okhttp
     implementation 'com.squareup.okhttp3:okhttp:4.0.0'
 
+}
+
+apollo {
+    customTypeMapping = ["URI" : "java.lang.String"]
 }

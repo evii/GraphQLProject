@@ -8,19 +8,20 @@ import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.apollographql.apollo.response.CustomTypeAdapter
+import com.apollographql.apollo.response.CustomTypeValue
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
 
-    val AUTH_TOKEN = "5e57f765e2e932d5c36f1394b78ff5a644e92aa1"
+    val AUTH_TOKEN = "TOKEN MUST BE INSERTED HERE"
     val BASE_URL = "https://api.github.com/graphql"
     val TAG = "GraphQlQuery"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
 
 
@@ -36,10 +37,10 @@ class MainActivity : AppCompatActivity() {
             .build())
             .enqueue(object : ApolloCall.Callback<FindQuery.Data>() {
                 override fun onFailure(e: ApolloException) {
-                    Log.v(TAG, e.message.toString())
+                    Log.v("$TAG onFailure", e.message.toString() + " " + e.cause.toString())
                 }
                 override fun onResponse(response: Response<FindQuery.Data>) {
-                    Log.v(TAG, " " + response.data()?.repository())
+                    Log.v("$TAG onResponse", " " + response.data()?.repository())
                     runOnUiThread {
                         repository_name_tv.text = response.data()?.repository()?.name()
                         desription_tv.text = response.data()?.repository()?.description()
@@ -59,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                     original.method,
                     original.body
                 )
-                builder.addHeader("Authorization"
+                builder.addHeader(
+                    "Authorization"
                     , "Bearer $AUTH_TOKEN"
                 )
                 chain.proceed(builder.build())
