@@ -57,7 +57,7 @@ apollo {
 }
 
 def prepareReportFolder() {
-    def targetFolder = file("/Users/evi/StudioProjects/GraphQLProject/lint_reports/")
+    def targetFolder = file("lint_reports/")
         if (targetFolder.exists()) {
             println "Deleting previous files..."
             targetFolder.deleteDir()
@@ -68,8 +68,8 @@ def prepareReportFolder() {
 }
 
 def copyNewReport() {
-    def newFile = file("/Users/evi/StudioProjects/GraphQLProject/app/build/reports/lint-results.html")
-    def targetFolder = file("/Users/evi/StudioProjects/GraphQLProject/lint_reports")
+    def newFile = file("build/reports/lint-results.html")
+    def targetFolder = file("lint_reports")
     if (newFile.exists()) {
         copy {
             def date = new Date()
@@ -84,7 +84,7 @@ def copyNewReport() {
     }
 }
 
-// task to run lint check and copy the final report to Project in "lint_report" folder
+// task to run lint check and copy the final report to Project in "app/lint_reports" folder
 task getLintReport(dependsOn: 'lint') {
     doLast {
         println "Running lint check done..."
