@@ -15,7 +15,7 @@ import okhttp3.OkHttpClient
 
 class MainActivity : AppCompatActivity() {
 
-    val AUTH_TOKEN = "TOKEN MUST BE INSERTED HERE"
+    val AUTH_TOKEN = "GITHUB TOKEN MUST BE INSERTED HERE"
     val BASE_URL = "https://api.github.com/graphql"
     val TAG = "GraphQlQuery"
 
@@ -26,8 +26,6 @@ class MainActivity : AppCompatActivity() {
 
 
     fun makeQuery(view: View) {
-       Log.v(TAG, "click")
-
         val client=setupApollo()
 
         client.query(FindQuery    //From the auto generated class

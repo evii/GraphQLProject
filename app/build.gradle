@@ -55,3 +55,42 @@ dependencies {
 apollo {
     customTypeMapping = ["URI" : "java.lang.String"]
 }
+
+def prepareReportFolder() {
+    def targetFolder = file("/Users/evi/StudioProjects/GraphQLProject/lint_reports/")
+        if (targetFolder.exists()) {
+            println "Deleting previous files..."
+            targetFolder.deleteDir()
+        }
+        else {
+            mkdir(targetFolder)
+        }
+}
+
+def copyNewReport() {
+    def newFile = file("/Users/evi/StudioProjects/GraphQLProject/app/build/reports/lint-results.html")
+    def targetFolder = file("/Users/evi/StudioProjects/GraphQLProject/lint_reports")
+    if (newFile.exists()) {
+        copy {
+            def date = new Date()
+            def reportName = "Lint-report-from-${date}.html"
+            from newFile.absolutePath
+            into targetFolder
+            rename { reportName }
+        }
+    }
+    else {
+        println "Copy failed"
+    }
+}
+
+// task to run lint check and copy the final report to Project in "lint_report" folder
+task getLintReport(dependsOn: 'lint') {
+    doLast {
+        println "Running lint check done..."
+        prepareReportFolder()
+        println "Deletion of old report done..."
+        copyNewReport()
+        println "New report copied..."
+    }
+}
